@@ -2,7 +2,7 @@ import { connection } from "../database/db.js";
 import bcrypt from "bcrypt";
 
 async function create_user(req, res) {
-  const { name, email, password } = req.body;
+  const { name, email, password } = res.locals.body;
 
   try {
     const password_hash = bcrypt.hashSync(password, 8);

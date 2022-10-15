@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import { connection } from "../database/db.js";
 
 async function login_user(req, res) {
-  const { email, password } = req.body;
+  const { email, password } = res.locals.body;
 
   try {
     const user = (

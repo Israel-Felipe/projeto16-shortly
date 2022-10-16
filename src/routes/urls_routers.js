@@ -1,6 +1,12 @@
 import express from "express";
-import { short_url, open_short_url } from "../controllers/urls_controllers.js";
+import {
+  short_url,
+  open_short_url,
+  get_id_url,
+} from "../controllers/urls_controllers.js";
+
 import { auth_validation } from "../middlewares/auth_middlewares.js";
+
 import {
   url_schemas_validation,
   url_not_duplicate,
@@ -17,5 +23,7 @@ router.post(
 );
 
 router.get("/urls/open/:short_url", open_short_url);
+
+router.get("/urls/:id", get_id_url);
 
 export default router;

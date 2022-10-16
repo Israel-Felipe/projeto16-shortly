@@ -10,11 +10,11 @@ async function urls_of_user(req, res) {
         `
         SELECT users.id,
             users.name,
-            COUNT(visits.id) AS visit_count
+            COALESCE (COUNT(visits.id), 0) AS visit_count
         FROM users
-        JOIN urls
+        LEFT JOIN urls
             ON urls.user_id = users.id
-        JOIN visits
+        LEFT JOIN visits
             ON visits.url_id = urls.id
         WHERE users.id = $1
         GROUP BY users.id
@@ -24,7 +24,7 @@ async function urls_of_user(req, res) {
     ).rows[0];
 
     if (!user) {
-      res.sendStatus(404);
+      res.status(404).send({ message: "teste" });
       return;
     }
 

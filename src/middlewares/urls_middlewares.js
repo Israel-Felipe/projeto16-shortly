@@ -51,4 +51,34 @@ async function url_not_duplicate(req, res, next) {
   }
 }
 
-export { url_schemas_validation, url_not_duplicate };
+async function url_validation_user_id(req, res, next) {
+  const { user } = res.locals;
+  const { id } = req.params;
+  if (!id) {
+    res.sendStatus(404);
+    return;
+  }
+
+  try {
+    const url = (
+      await connection.query(`SELECT * FROM urls WHERE id = $1`, [id])
+    ).rows[0];
+    if (!url) {
+      res.sendStatus(404);
+      return;
+    }
+
+    if (user.user_id !== url.user_id) {
+      res.sendStatus(401);
+      return;
+    }
+
+    res.locals.url_id = id;
+    next();
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500);
+  }
+}
+
+export { url_schemas_validation, url_not_duplicate, url_validation_user_id };

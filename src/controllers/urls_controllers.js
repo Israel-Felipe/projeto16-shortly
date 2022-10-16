@@ -73,4 +73,17 @@ async function get_id_url(req, res) {
   }
 }
 
-export { short_url, open_short_url, get_id_url };
+async function delete_url(req, res) {
+  const { url_id } = res.locals;
+
+  try {
+    await connection.query(`DELETE FROM urls WHERE id = $1;`, [url_id]);
+
+    res.sendStatus(204);
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500);
+  }
+}
+
+export { short_url, open_short_url, get_id_url, delete_url };

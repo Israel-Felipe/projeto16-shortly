@@ -39,7 +39,6 @@ async function url_not_duplicate(req, res, next) {
       });
       return;
     }
-
     next();
   } catch (error) {
     console.log(error);

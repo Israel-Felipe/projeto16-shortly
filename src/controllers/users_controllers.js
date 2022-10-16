@@ -31,16 +31,16 @@ async function urls_of_user(req, res) {
     const urls = (
       await connection.query(
         `
-            SELECT urls.id,
-                urls.short_url,
-                urls.url,
-                COUNT(visits.id) as visit_count
-            FROM urls
-            JOIN visits
-                ON visits.url_id = urls.id
-            WHERE urls.user_id = $1
-            GROUP BY urls.id
-            `,
+        SELECT urls.id,
+            urls.short_url,
+            urls.url,
+            COUNT(visits.id) as visit_count
+        FROM urls
+        JOIN visits
+            ON visits.url_id = urls.id
+        WHERE urls.user_id = $1
+        GROUP BY urls.id
+        `,
         [id]
       )
     ).rows;

@@ -26,19 +26,15 @@ async function url_not_duplicate(req, res, next) {
 
   try {
     const url_exist = (
-      await connection.query(`SELECT * FROM urls WHERE url = $1;`, [url])
+      await connection.query(
+        `SELECT * FROM urls WHERE url = $1 and user_id = $2;`,
+        [url, user.user_id]
+      )
     ).rows[0];
 
     if (url_exist) {
-      if (user.user_id === url_exist.user_id) {
-        res.status(409).send({
-          message: `este link já foi encurtado por você`,
-          short_url: url_exist.short_url,
-        });
-        return;
-      }
       res.status(409).send({
-        message: `este link já foi encurtado por outro usuário`,
+        message: `este link já foi encurtado por você`,
         short_url: url_exist.short_url,
       });
       return;

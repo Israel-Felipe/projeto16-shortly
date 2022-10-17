@@ -24,7 +24,7 @@ async function urls_of_user(req, res) {
     ).rows[0];
 
     if (!user) {
-      res.status(404).send({ message: "teste" });
+      res.sendStatus(404);
       return;
     }
 
